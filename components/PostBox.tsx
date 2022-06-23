@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import client from '../apollo-client'
 import { ADD_POST, ADD_SUBREDDIT } from '../graphql/mutations'
-import { GET_SUBREDDIT_BY_TOPIC } from '../graphql/queries'
+import { GET_ALL_POSTS, GET_SUBREDDIT_BY_TOPIC } from '../graphql/queries'
 import Avatar from './Avatar'
 
 type FormData = {
@@ -18,7 +18,12 @@ type FormData = {
 
 function PostBox() {
   const { data: session } = useSession()
-  const [addPost] = useMutation(ADD_POST)
+  const [addPost] = useMutation(ADD_POST, {
+    refetchQueries: [
+      GET_ALL_POSTS,
+      "getPostList"
+    ],
+  })
   const [addSubreddit] = useMutation(ADD_SUBREDDIT)
   const [imageBoxOpen, setImageBoxOpen] = useState<boolean>(false)
   const {
@@ -99,7 +104,7 @@ function PostBox() {
   return (
     <form
       onSubmit={onSubmit}
-      className="sticky top-16 z-50 mx-4 rounded-md border border-gray-300 bg-white p-2"
+      className="sticky top-16 z-50 mb-4 rounded-md border border-gray-300 bg-white p-2 mt-2"
     >
       <div className="flex items-center space-x-3">
         <Avatar seed="dasfljn" />

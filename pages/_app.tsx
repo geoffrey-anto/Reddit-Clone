@@ -14,7 +14,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
         <div className="h-screen overflow-y-scroll bg-slate-200">
           <Header />
           <Component {...pageProps} />
-        </div>
+        </div> 
       </SessionProvider>
     </ApolloProvider>
   )

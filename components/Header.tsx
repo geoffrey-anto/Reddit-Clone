@@ -53,7 +53,7 @@ function Header() {
         <div
           onClick={() => signOut()}
           className="hidden cursor-pointer items-center space-x-2 border border-gray-100 p-1 md:flex"
-        >
+        > 
           <div className="relative h-5 w-5 flex-shrink-0">
             <Image
               src="https://logoeps.com/wp-content/uploads/2014/09/52053-reddit-logo-icon-vector-icon-vector-eps.png"

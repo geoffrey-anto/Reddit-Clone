@@ -1,7 +1,7 @@
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import React from 'react'
-
+ 
 interface Props {
     seed?: string,
     large?: boolean

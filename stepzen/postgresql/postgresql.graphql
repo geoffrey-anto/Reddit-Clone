@@ -14,6 +14,21 @@ type Post {
   subreddit_id: ID
   title: String
   username: String
+  votes: [Vote]
+    @materializer(
+      query: "getVotesByPostId"
+      arguments: [{ name: "post_id", field: "id" }]
+    )
+  comments: [Comment]
+  @materializer(
+    query: "getCommentByPost_id"
+    arguments: [{name: "post_id", field: "id"}]
+  )
+  subreddit: [Subreddit]
+    @materializer(
+      query: "getSubredditListById"
+      arguments: [{ name: "id", field: "subreddit_id" }]
+    )
 }
 
 type Subreddit {
@@ -49,6 +64,26 @@ type Query {
       """
       configuration: "postgresql_config"
     )
+
+  getSubredditListById(id: ID!): [Subreddit]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      select * from "public"."subreddit" where "id" = $1
+      """
+      configuration: "postgresql_config"
+    )
+
+  getVotesByPostId(post_id: ID!): [Vote]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      select * from "public"."vote" where "post_id" = $1
+      order by "created_at" desc
+      """
+      configuration: "postgresql_config"
+    )
+
   """
   In this example, a single query parameter is passed. If the request to the DB will
   return at most one value you can remove the square brackets from the result.
@@ -73,11 +108,13 @@ type Query {
       """
       configuration: "postgresql_config"
     )
-  getPostList: [Post]
+  getPostList: [Post] 
     @dbquery(
       type: "postgresql"
-      schema: "public"
-      table: "post"
+      query: """
+      select * from "post"
+      order by "public"."post"."created_at" desc
+      """
       configuration: "postgresql_config"
     )
   getSubredditList: [Subreddit]

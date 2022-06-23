@@ -4,4 +4,4 @@ module.exports = {
   images: {
     domains: ['upload.wikimedia.org', "logoeps.com", "avatars.dicebear.com"],
   }
-}
+} 

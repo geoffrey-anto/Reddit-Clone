@@ -5,7 +5,7 @@ export const ADD_POST = gql`
         $body: String!
         $image: String!
         $subreddit_id: ID!
-        $title: String!
+        $title: String! 
         $username: String!
     ) {
         insertPost(

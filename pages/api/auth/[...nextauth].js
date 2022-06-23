@@ -6,6 +6,6 @@ export default NextAuth({
     RedditProvider({
       clientId: process.env.REDDIT_CLIENT_ID,
       clientSecret: process.env.REDDIT_CLIENT_SECRET,
-    }),
+    }), 
   ],
 })
