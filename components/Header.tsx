@@ -14,7 +14,6 @@ import { signIn, signOut, useSession } from 'next-auth/react'
 
 function Header() {
   const { data: session, status: string } = useSession()
-  console.log(session);
   return (
     <div className="flex bg-white py-2 px-4 shadow-sm items-center">
       <div className="relative h-10 w-20 flex-shrink-0 cursor-pointer">
