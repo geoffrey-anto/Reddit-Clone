@@ -16,13 +16,14 @@ type FormData = {
   subReddit: string
 }
 
-function PostBox() {
+interface Props {
+  subreddit?: string
+}
+
+function PostBox({ subreddit }: Props) {
   const { data: session } = useSession()
   const [addPost] = useMutation(ADD_POST, {
-    refetchQueries: [
-      GET_ALL_POSTS,
-      "getPostList"
-    ],
+    refetchQueries: [GET_ALL_POSTS, 'getPostList'],
   })
   const [addSubreddit] = useMutation(ADD_SUBREDDIT)
   const [imageBoxOpen, setImageBoxOpen] = useState<boolean>(false)
@@ -42,7 +43,7 @@ function PostBox() {
       } = await client.query({
         query: GET_SUBREDDIT_BY_TOPIC,
         variables: {
-          topic: formData.subReddit,
+          topic: subreddit || formData.subReddit,
         },
       })
       const doesSubredditExist = getSubredditListByTopic.length > 0
@@ -86,17 +87,17 @@ function PostBox() {
         })
         console.log('New Post Added' + newPost)
       }
-      setValue("postBody", "")
-      setValue("postImage", "")
-      setValue("postTitle", "")
-      setValue("subReddit", "")
-      toast.success("New Post Created", {
-        id: notification
+      setValue('postBody', '')
+      setValue('postImage', '')
+      setValue('postTitle', '')
+      setValue('subReddit', '')
+      toast.success('New Post Created', {
+        id: notification,
       })
     } catch (e) {
       console.log(e)
-      toast.error("Something Went Wrong!", {
-        id: notification
+      toast.error('Something Went Wrong!', {
+        id: notification,
       })
     }
   })
@@ -104,7 +105,7 @@ function PostBox() {
   return (
     <form
       onSubmit={onSubmit}
-      className="sticky top-16 z-50 mb-4 rounded-md border border-gray-300 bg-white p-2 mt-2"
+      className="sticky top-20 z-50 mb-4 mt-2 rounded-md border border-gray-300 bg-white p-2"
     >
       <div className="flex items-center space-x-3">
         <Avatar seed="dasfljn" />
@@ -114,7 +115,7 @@ function PostBox() {
           className="flex-1 rounded-md bg-gray-50 p-1 pl-5 outline-none"
           type="text"
           placeholder={
-            session ? 'Create A Post By Entering A Title' : 'Sign In To Post'
+            session ? subreddit ? `Create a post in r/${subreddit}` : 'Create A Post By Entering A Title' : 'Sign In To Post'
           }
         />
         <PhotographIcon

@@ -20,10 +20,10 @@ type Post {
       arguments: [{ name: "post_id", field: "id" }]
     )
   comments: [Comment]
-  @materializer(
-    query: "getCommentByPost_id"
-    arguments: [{name: "post_id", field: "id"}]
-  )
+    @materializer(
+      query: "getCommentByPost_id"
+      arguments: [{ name: "post_id", field: "id" }]
+    )
   subreddit: [Subreddit]
     @materializer(
       query: "getSubredditListById"
@@ -108,12 +108,24 @@ type Query {
       """
       configuration: "postgresql_config"
     )
-  getPostList: [Post] 
+  getPostList: [Post]
     @dbquery(
       type: "postgresql"
       query: """
       select * from "post"
       order by "public"."post"."created_at" desc
+      """
+      configuration: "postgresql_config"
+    )
+  getPostListByTopic(topic: String!): [Post]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      select *, "post".id as id from "post"
+      join "subreddit" on "subreddit"."id" = "post"."subreddit_id"
+      where "subreddit"."topic" = $1
+      order by "post"."created_at" desc
       """
       configuration: "postgresql_config"
     )
@@ -133,6 +145,17 @@ type Query {
       """
       configuration: "postgresql_config"
     )
+
+  getPostListByPostId(post_id: ID!): Post
+    @dbquery(
+      type: "postgresql"
+      configuration: "postgresql_config"
+      query: """
+      select *, "post".id as "id" from "post"
+      where "post"."id" = $1
+      """
+    )
+
   getVoteList: [Vote]
     @dbquery(
       type: "postgresql"
@@ -140,6 +163,7 @@ type Query {
       table: "vote"
       configuration: "postgresql_config"
     )
+  
 }
 
 type Mutation {
@@ -166,6 +190,24 @@ type Mutation {
       type: "postgresql"
       schema: "public"
       table: "subreddit"
+      dml: INSERT
+      configuration: "postgresql_config"
+    ) 
+
+  insertComment(post_id: ID!, username: String!, text: String!): Comment
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "comment"
+      dml: INSERT
+      configuration: "postgresql_config"
+    )
+
+  insertVote(post_id: ID!, username: String!, upvote: Boolean!): Vote
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "vote"
       dml: INSERT
       configuration: "postgresql_config"
     )

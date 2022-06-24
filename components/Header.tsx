@@ -11,17 +11,21 @@ import {
   VideoCameraIcon,
 } from '@heroicons/react/outline'
 import { signIn, signOut, useSession } from 'next-auth/react'
+import Link from 'next/link'
 
 function Header() {
+  // signOut()
   const { data: session, status: string } = useSession()
   return (
-    <div className="flex bg-white py-2 px-4 shadow-sm items-center">
+    <div className=" sticky top-0 z-50 flex items-center bg-white py-2 px-4 shadow-sm">
       <div className="relative h-10 w-20 flex-shrink-0 cursor-pointer">
+        <Link href="/">
         <Image
           src="https://upload.wikimedia.org/wikipedia/en/thumb/5/58/Reddit_logo_new.svg/2560px-Reddit_logo_new.svg.png"
           layout="fill"
           objectFit="contain"
         />
+        </Link>
       </div>
       <div className="mx-7 flex items-center xl:min-w-[300px]">
         <HomeIcon className="h-5 w-5" />
@@ -53,7 +57,7 @@ function Header() {
         <div
           onClick={() => signOut()}
           className="hidden cursor-pointer items-center space-x-2 border border-gray-100 p-1 md:flex"
-        > 
+        >
           <div className="relative h-5 w-5 flex-shrink-0">
             <Image
               src="https://logoeps.com/wp-content/uploads/2014/09/52053-reddit-logo-icon-vector-icon-vector-eps.png"
@@ -61,13 +65,19 @@ function Header() {
             />
           </div>
           <div className="flex flex-col items-center justify-around">
-            <p className="truncate text-md">{session?.user?.name}</p>
-            <p className="text-gray-400 text-sm">Sign Out</p>
+            <p className="text-md truncate">{session?.user?.name}</p>
+            <p className="text-sm text-gray-400">Sign Out</p>
           </div>
         </div>
       ) : (
         <div
-          onClick={() => signIn()}
+          onClick={() => {
+            try{
+              signIn()
+            } catch(error){
+              console.log(error);
+            }
+          }}
           className="hidden cursor-pointer items-center space-x-2 border border-gray-100 p-2 md:flex"
         >
           <div className="relative h-5 w-5 flex-shrink-0">
@@ -76,7 +86,7 @@ function Header() {
               layout="fill"
             />
           </div>
-          <p className="text-gray-400 text-lg">Sign In</p>
+          <p className="text-lg text-gray-400">Sign In</p>
         </div>
       )}
     </div>
