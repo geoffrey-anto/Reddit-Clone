@@ -15,16 +15,30 @@ type FormData = {
   comment: string
 }
 
+function countSpaces(s: string): number {
+  const len = s.length
+  let count = 0
+  for (let i = 0; i < len; i++) {
+    if (s[i] === ' ') {
+      count++
+    }
+  }
+  return count;
+}
+
 function PostPage() {
   const router = useRouter()
+
   const [addComment] = useMutation(ADD_COMMENT, {
     refetchQueries: [GET_ALL_POSTS_BY_ID, 'getPostListByPostId'],
   })
+
   const { data } = useQuery(GET_ALL_POSTS_BY_ID, {
     variables: {
       post_id: router.query.postId,
     },
   })
+
   const {
     register,
     handleSubmit,
@@ -32,9 +46,19 @@ function PostPage() {
     setValue,
     formState: { errors },
   } = useForm<FormData>()
+
   const { data: session } = useSession()
+
   const post: Post = data?.getPostListByPostId
+
   const onSubmit_: SubmitHandler<FormData> = async (data) => {
+    if (
+      data.comment === '' ||
+      countSpaces(data.comment) === data.comment.length
+    ) {
+      toast('Please Enter A Valid Comment!')
+      return
+    }
     const notification = toast.loading('Posting Your Comment...')
     await addComment({
       variables: {
@@ -77,6 +101,7 @@ function PostPage() {
             }
           />
           <button
+            disabled={!session}
             type="submit"
             className="mt-2 w-full rounded-full bg-red-500 p-3 font-semibold text-white disabled:bg-gray-200"
           >
