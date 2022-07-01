@@ -1,26 +1,14 @@
-# Next.js + Tailwind CSS Example
+<h1><span style="color:blue">Reddit Clone<span></h1>
 
-This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v3.0)](https://tailwindcss.com/blog/tailwindcss-v3) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
+### A Fully Functioning Reddit Clone With Capability Of Creating Subreddits, Uploading Posts And Also Authenticatin With Reddit
 
-## Deploy your own
- 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example) or preview live with [StackBlitz](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-tailwindcss)
+**<h2>Tech Stack</h2>**
+- NextJs and TypeScript
+- TailWindCss
+- PostgresSQL
+- GraphQL
+- Stepzen
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-tailwindcss&project-name=with-tailwindcss&repository-name=with-tailwindcss)
+![image](https://user-images.githubusercontent.com/91791834/176933679-4e77444d-69e6-43ac-969f-171f265c160d.png)
 
-## How to use
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
-
-```bash
-npx create-next-app --example with-tailwindcss with-tailwindcss-app
-# or
-yarn create next-app --example with-tailwindcss with-tailwindcss-app
-# or
-pnpm create next-app -- --example with-tailwindcss with-tailwindcss-app
-```
-
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
-
-
-Credits: Sonny Sangha [Youtube](https://youtu.be/O0AhmAVzOo4)
+![image](https://user-images.githubusercontent.com/91791834/176935706-d6876b7b-571f-41a9-ac75-192fa4a14076.png)
